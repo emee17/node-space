@@ -21,7 +21,7 @@ app.use((request,response,next)=>{
 })
 
 /**Any error happens this gets generate */
-app.use((error, request, response, next)=>{
+app.use((error, request, response, next)=>{ 
     response.status(error.status || 500)
     response.json({
         error:{
