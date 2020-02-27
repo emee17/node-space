@@ -5,11 +5,21 @@ const morgan = require('morgan')
 
 const app = express();
 
-const coderRoutes = require('./api/controller/coder')
+const coderRoutes = require('./api/routes/avenger-routes')
 
-app.use(morgan('dev'));
+app.use(morgan('dev'));//logger
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended:false}));
+
+app.use((request,response,next)=>{
+    response.header({'Access-Control-Allow-Origin': '*'})
+    response.header({'Access-Control-Allow-Header': 'Origin, X-Requested-with, Content-Type, Accept, Authorization'})
+
+    if(request.method === 'Option'){
+        response.header({'Acces-Control-Allow-Methods': 'GET, PUT, POST, DELETE'})
+    }
+    next()
+})
 
 app.use('/api/coder', coderRoutes)
 

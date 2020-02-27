@@ -9,8 +9,8 @@ var dbConnection = mySql.createConnection({
 })
 
 dbConnection.connect((err)=>{
-    if(err) console.log('500 : Error while creating Database connection :TheCoder'+err);
-    else console.log('200 : Successfully created Database connection :TheCoder'+err);
+    if(err) console.log('500 : Error while creating Database connection :TheCoder : '+err);
+    else console.log('200 : Successfully created Database connection :TheCoder');
 })
 
 /**End exports */
