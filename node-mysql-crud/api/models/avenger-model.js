@@ -5,6 +5,7 @@
 class Avenger{
     constructor(avenger){
         this.name = avenger.name;
+        this.email= avenger.email;
         this.description = avenger.description;
     }
 }

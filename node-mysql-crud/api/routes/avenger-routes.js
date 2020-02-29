@@ -16,9 +16,7 @@ routes.get('/', (request, response, next)=>{
                 message: 'Internal Error :TheCoder'
             })
         }else{
-            response.status(200).json({
-                avenger:result
-            })
+            response.status(200).json(result)
         }
     })
 })
@@ -38,9 +36,7 @@ routes.get('/:id', (request, response, next)=>{
                 })
             }
         }else{
-            response.status(200).json({
-                avenger : result
-            })
+            response.status(200).json(result)
         }
 
     })
@@ -55,9 +51,11 @@ routes.get('/:id', (request, response, next)=>{
 routes.post('/', (request, response, next)=>{
     
     let avenger = new Avenger({
-        name : request.body.avenger.name,
-        description: request.body.avenger.description    
+        name : request.body.name,
+        email : request.body.email,
+        description: request.body.description    
     })
+    console.log("avenger.name : "+avenger.name)
     avengerService.create(avenger,(error, result)=>{
         if(error){
             response.status(500).json({
@@ -74,7 +72,7 @@ routes.post('/', (request, response, next)=>{
 /** PUT- UPDATE DATA BY ID */
 routes.put('/:id', (request, response, next)=>{
     const id = request.params.id
-    let avenger = new Avenger(request.body.avenger)
+    let avenger = new Avenger(request.body)
     avengerService.update(id,avenger, (error,data)=>{
         if(error){
             response.status(500).json({

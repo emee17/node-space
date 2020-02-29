@@ -2,6 +2,7 @@
 const express = require('express')
 const bodyParser = require('body-parser')
 const morgan = require('morgan')
+const cors = require('cors')
 
 const app = express();
 
@@ -11,12 +12,14 @@ app.use(morgan('dev'));//logger
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended:false}));
 
+app.use(cors())
 app.use((request,response,next)=>{
     response.header({'Access-Control-Allow-Origin': '*'})
-    response.header({'Access-Control-Allow-Header': 'Origin, X-Requested-with, Content-Type, Accept, Authorization'})
+    response.header({'Access-Control-Allow-Headers': 'Origin, X-Requested-With, Content-Type, Accept, Authorization'})
+    //response.header({"Access-Control-Request-Headers":"Access-Control-Request-Headers, Content-Type"})
 
-    if(request.method === 'Option'){
-        response.header({'Acces-Control-Allow-Methods': 'GET, PUT, POST, DELETE'})
+    if(request.method === 'OPTIONS'){
+        response.header({'Acces-Control-Allow-Methods': 'OPTIONS, GET, PUT, POST, DELETE'})
     }
     next()
 })

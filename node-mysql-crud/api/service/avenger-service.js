@@ -66,6 +66,9 @@ var valArray = (avenger,id)=>{
     if(avenger.name !=null) {
         valueArray.push(avenger.name)
     }
+    if(avenger.email !=null) {
+        valueArray.push(avenger.email)
+    }
     if(avenger.description!=null) {
         valueArray.push(avenger.description)
     }
@@ -78,6 +81,13 @@ var field = (avenger)=>{
     if(avenger.name!=null) {
         fields+= "name = ? "; 
         flg = true;}
+    if(avenger.email!=null) {
+        if(flg) {
+            fields+=", "
+        }
+        fields+= "email = ? "; 
+        flg = true;
+    }
     if(avenger.description!=null) {
         if(flg) {
             fields+=", "
