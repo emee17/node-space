@@ -1,5 +1,6 @@
 {
     "env" : {
-        "MONGOOSE_ATLAS_PASSWORD": "brad"
+        "MONGOOSE_ATLAS_PASSWORD": "brad",
+        "JWT_KEY": "brad@brad"
     }
 }

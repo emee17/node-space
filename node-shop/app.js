@@ -9,6 +9,7 @@ const mongoose = require('mongoose')
 //additional Routes imports
 const productRoutes = require('./api/routes/product');
 const ordersRoutes = require('./api/routes/orders');
+const userRoutes = require('./api/routes/user');
 
 mongoose.connect('mongodb+srv://node-shop:'+process.env.MONGOOSE_ATLAS_PASSWORD+'@node-shop-uyzpz.mongodb.net/test?retryWrites=true&w=majority'
 //,{useMongoClient : true}
@@ -33,6 +34,7 @@ app.use((request,response,next)=>{
 
 app.use('/products',productRoutes);
 app.use('/orders',ordersRoutes);
+app.use('/user',userRoutes);
 
 //if uri related errors
 app.use((request,response,next)=>{

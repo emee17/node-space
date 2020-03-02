@@ -1,10 +1,40 @@
 const express = require('express')
 const routes = express.Router();
 const mongoose = require('mongoose');
+const checkAuth = require('../middle-ware/check-auth')
+
+//const fs = require('fs-extra')
 
 const Product = require('../model/product')
+const multer = require('multer')
+const fileFilter = (req,file,cb)=>{
+    if(file.mimetype ==='image/jpg' || file.mimetype ==='image/jpeg' || file.mimetype ==='image/png'){
+        cb(null,true)
+    }else{
+        cb(null,false)
+    }
+}
+const storage = multer.diskStorage({
+    destination:function(req,file,cb){
+        /*  let type = req.params.type;
+        let path = `./uploads/${type}`; */
+       // fs.mkdirsSync(path);
+        cb(null,`./uploads/`) 
+    },
+    filename: function(req,file,cb){
+        cb(null, Date.now()+file.originalname)
+    }
+})
+//const upload = multer({dest:'uploads/'})
+const upload = multer({
+    storage:storage,
+    fileFilter:fileFilter,
+    limits:{
+        fileSize:1024*1024*5
+    }    
+})
 
-routes.get('/',(request,response,next)=>{
+routes.get('/',checkAuth,(request,response,next)=>{
     
     Product.find().select('_id name price').exec()
     .then(data => {
@@ -46,8 +76,9 @@ routes.get('/:id',(request,response,next)=>{
     });
 });
 
-routes.post('/',(request,response,next)=>{
+routes.post('/',upload.single('productImage'),(request,response,next)=>{
 
+    console.log(request.file)
     const product = new Product({
         _id : new mongoose.Types.ObjectId,
         name : request.body.name,
