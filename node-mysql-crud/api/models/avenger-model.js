@@ -4,9 +4,12 @@
 } */
 class Avenger{
     constructor(avenger){
+        this.id = avenger.id
         this.name = avenger.name;
         this.email= avenger.email;
+        this.password= avenger.password;
         this.description = avenger.description;
+        this.role = avenger.role;
     }
 }
 

@@ -27,6 +27,33 @@ exports.findById = (id,result)=>{
     })
 };
 
+exports.findByEmail = async (email, result)=>{
+    console.log(`email ${email}`);
+    
+    dbConnection.query(`SELECT * FROM AVENGER WHERE EMAIL = ?`, email, (err, data)=>{
+        console.log(JSON.stringify(err)+' data')
+        if(err){
+            result(err,null)
+            return 
+        }
+        if(data.length){
+            result(null,data[0])
+            return
+        }   //else{ result({errorCode: '404'}, null)}
+        result({errorCode: '404'}, null)
+    })
+   /*  try {
+        const avengers = await dbConnection.query(`SELECT * FROM AVENGER WHERE EMAIL = ${email}`)
+        if(avengers.length){
+            result(null, avengers[0])
+        }else{
+            result({errorCode: '404'}, null)   
+        }
+    } catch (error) {
+        result(error,null)
+    } */
+}
+
 exports.create = (avenger, result)=>{
     dbConnection.query('INSERT INTO AVENGER SET ?', avenger, (error, data)=>{
         if(error){
@@ -80,7 +107,8 @@ var field = (avenger)=>{
     fields = '';
     if(avenger.name!=null) {
         fields+= "name = ? "; 
-        flg = true;}
+        flg = true;
+    }
     if(avenger.email!=null) {
         if(flg) {
             fields+=", "
@@ -93,6 +121,13 @@ var field = (avenger)=>{
             fields+=", "
         }
         fields+= "description = ? "; 
+        flg = true;
+    }
+    if(avenger.role!=null) {
+        if(flg) {
+            fields+=", "
+        }
+        fields+= "role = ? "; 
         flg = true;
     }
     return fields;

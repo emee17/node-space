@@ -1,5 +1,6 @@
 {
     "env" : {
-        "MYSQL_PASSWORD": "root"
+        "MYSQL_PASSWORD": "root",
+        "JWT_KEY" : "secretKey"
     }
 }

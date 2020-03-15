@@ -12,7 +12,7 @@ module.exports = (request, response, next)=>{
         next()
     }catch(error){
         return response.status(401).json({
-            message:'Auth Faileds'+error
+            message:'Auth Faileds :'+error
         })
     }
 

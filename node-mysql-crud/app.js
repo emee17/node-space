@@ -6,7 +6,10 @@ const cors = require('cors')
 
 const app = express();
 
-const coderRoutes = require('./api/routes/avenger-routes')
+const avengerRoutes = require('./api/routes/avenger-routes')
+const userRoutes = require('./api/routes/user-routes')
+const adminRoutes = require('./api/routes/admin-routes')
+
 
 app.use(morgan('dev'));//logger
 app.use(bodyParser.json());
@@ -24,7 +27,9 @@ app.use((request,response,next)=>{
     next()
 })
 
-app.use('/api/coder', coderRoutes)
+app.use('/api/avenger', avengerRoutes)
+app.use('/api/user', userRoutes)
+app.use('/api/admin', adminRoutes)
 
 /** URI related errors */
 app.use((request,response,next)=>{
