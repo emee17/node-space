@@ -1,5 +1,17 @@
 const dbConnection = require('../configuration/db-configuration')
 
+exports.findByCreater = (createrId, result)=>{
+    dbConnection.query(`SELECT * FROM AVENGER WHERE createdBy = ? `, createrId, (error,data)=>{
+        if(error){
+            result(error,null)
+            return
+        }else{
+            result(null, data)
+            return
+        }
+    })
+}
+
 exports.findAll = (result)=>{
     dbConnection.query(`SELECT * FROM AVENGER `, (error,data)=>{
         if(error){
@@ -128,6 +140,13 @@ var field = (avenger)=>{
             fields+=", "
         }
         fields+= "role = ? "; 
+        flg = true;
+    }
+    if(avenger.createdBy!=null) {
+        if(flg) {
+            fields+=", "
+        }
+        fields+= "createdBy = ? "; 
         flg = true;
     }
     return fields;

@@ -9,6 +9,7 @@ class Avenger{
         this.email= avenger.email;
         this.password= avenger.password;
         this.description = avenger.description;
+        this.createdBy = avenger.createdBy;
         this.role = avenger.role;
     }
 }

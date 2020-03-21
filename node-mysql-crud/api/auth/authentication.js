@@ -9,8 +9,6 @@ module.exports = (request, response, next)=>{
         }
         const token = request.headers.authorization.split(' ')[1]
         const decoded = jwt.verify(token, process.env.JWT_KEY)
-        console.log(`decode : ${JSON. stringify(decoded)}`);
-        
         request.userData = decoded
         next()
     } catch (error) {

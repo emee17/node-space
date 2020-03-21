@@ -5,6 +5,7 @@ class Admin{
         this.email= admin.email;
         this.password= admin.password;
         this.description= admin.description;
+        this.createdBy= admin.createdBy;
         this.role = admin.role;
     }
 }

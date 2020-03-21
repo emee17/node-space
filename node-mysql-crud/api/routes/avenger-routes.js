@@ -10,6 +10,35 @@ const role = require('../auth/role-authorization')
 const bcrypt = require('bcrypt')
 //var aven  = {id:1, name:'Tony',description:'Mark 48'}
 
+/**GET BY CREATER */
+routes.get('/by-creater', auth,async (request, response, next)=>{
+
+    const userRole = request.userData.role
+    const createrId = request.userData.id
+    
+    if(!userRole){
+        return response.status(401).json({
+            message : 'un Authorized to access.'
+        })
+    }
+    const valid = await role.getRoleRoutePrivilegeValue(userRole, '/api/avenger/by-creater', 'GET');
+
+    if(!valid){
+        return response.status(401).json({
+            message : 'un Authorized to access.'
+        })
+    } 
+    avengerService.findByCreater(createrId, async (error, result)=>{
+        if(error){
+            await response.status(500).json({
+                message: 'Internal Error :TheCoder'
+            })
+        }else{
+            await response.status(200).json(result)
+        }
+    })
+})
+
 /** GET- ALL DATA */
 routes.get('/', auth,async (request, response, next)=>{
 
@@ -82,7 +111,8 @@ routes.get('/:id', auth, (request, response, next)=>{
 routes.post('/', auth, (request, response, next)=>{
 
     let userRole = request.userData.role
-    
+    const createdBy = request.userData.id
+
     const valid = role.getRoleRoutePrivilegeValue(userRole, '/api/avenger','POST')
     if(!valid){
         return response.status(401).json({
@@ -90,7 +120,7 @@ routes.post('/', auth, (request, response, next)=>{
         })
     }
     
-    bcrypt.hash(request.body.password, 10,(err, hash)=>{
+    bcrypt.hash(request.body.password || 'pass', 10,(err, hash)=>{
         if(err){
             return response.status(500).json({
                 err:err+'ja',
@@ -101,7 +131,8 @@ routes.post('/', auth, (request, response, next)=>{
                 email : request.body.email,
                 password :hash,
                 description: request.body.description,
-                role: request.body.role    
+                createdBy : createdBy,
+                role: request.body.role || 'user' 
             }) 
             avengerService.create(avenger,(error, result)=>{
                 if(error){

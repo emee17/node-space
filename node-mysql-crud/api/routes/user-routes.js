@@ -12,7 +12,11 @@ routes.post('/login',(request, response, next)=>{
                 return response.status(401).json({ message : 'Auth Failed in query : '+error.message })
             }
             if(result){ 
-            
+                if(result.role ==='admin'){
+                    return response.status(401).json({
+                        message :'Auth Failed : '+error
+                    })
+                }
                 bcrypt.compare(user.password, result.password, (err, resp)=>{
                     if(err){
                         return response.status(401).json({ message : 'Auth Failed bcrypt : '+err.message})
@@ -22,6 +26,7 @@ routes.post('/login',(request, response, next)=>{
                             {
                                 id : result.id,
                                 email : result.email,
+                                name : result.name,
                                 role : result.role
                             },
                             process.env.JWT_KEY,

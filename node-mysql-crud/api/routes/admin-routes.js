@@ -13,17 +13,23 @@ routes.post('/login', (request, response)=>{
                 return response.status(500).json({error:error.message})
             }
             if(result){
+                if(result.role ==='user'){
+                    return response.status(401).json({
+                        message :'Auth Failed : '+error
+                    })
+                }
                 bcrypt.compare(admin.password,result.password, (err, resp)=>{
                     if(err){
                         return response.status(401).json({
                             message :'Auth Failed : '+err.message
                         })
                     }
-                    if(resp){  console.log(resp+"resphash");
+                    if(resp){  
                         const jToken = jwt.sign(
                             {
                                 id:result.id,
                                 email:result.email,
+                                name: result.name,
                                 role:result.role
                             },
                             process.env.JWT_KEY, 

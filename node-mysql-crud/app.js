@@ -9,6 +9,7 @@ const app = express();
 const avengerRoutes = require('./api/routes/avenger-routes')
 const userRoutes = require('./api/routes/user-routes')
 const adminRoutes = require('./api/routes/admin-routes')
+const postsRoutes = require('./api/routes/posts-routes')
 
 
 app.use(morgan('dev'));//logger
@@ -30,6 +31,7 @@ app.use((request,response,next)=>{
 app.use('/api/avenger', avengerRoutes)
 app.use('/api/user', userRoutes)
 app.use('/api/admin', adminRoutes)
+app.use('/api/posts', postsRoutes)
 
 /** URI related errors */
 app.use((request,response,next)=>{
