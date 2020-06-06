@@ -34,6 +34,26 @@ const upload = multer({
     }    
 })
 
+routes.post('/',upload.single('productImage'),(request,response,next)=>{
+
+    console.log(request.file)
+    const product = new Product({
+        _id : new mongoose.Types.ObjectId,
+        name : request.body.name,
+        price : request.body.price
+    });
+    product.save().then(result =>{
+        console.log('result : '+result);
+        response.status(201).json({
+            message : "Alhamdulillah Handling POST Request called",
+            product : result
+        })
+    }).catch(err=>{
+        console.log('error : '+err); 
+    })
+    
+});
+
 routes.get('/',checkAuth,(request,response,next)=>{
     
     Product.find().select('_id name price').exec()
@@ -76,32 +96,11 @@ routes.get('/:id',(request,response,next)=>{
     });
 });
 
-routes.post('/',upload.single('productImage'),(request,response,next)=>{
-
-    console.log(request.file)
-    const product = new Product({
-        _id : new mongoose.Types.ObjectId,
-        name : request.body.name,
-        price : request.body.price
-    });
-    product.save().then(result =>{
-        console.log('result : '+result);
-        response.status(201).json({
-            message : "Alhamdulillah Handling POST Request called",
-            product : result
-        })
-    }).catch(err=>{
-        console.log('error : '+err); 
-    })
-    
-});
-
 routes.put('/:id',(request,response,next)=>{
     const id = request.params.id;
     const updateOps = {};
-    console.log('0 ')
     for(const ops of request.body){
-        updateOps[ops.propName] = ops.value; console.log('1 ',ops.propName)
+        updateOps[ops.propName] = ops.value
     }
     Product.updateOne({_id:id},{$set : updateOps }).exec()
         .then(data =>{
