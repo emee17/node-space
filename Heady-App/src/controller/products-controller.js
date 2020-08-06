@@ -2,6 +2,10 @@ const mongoose = require('mongoose')
 const Product = require('../model/product-model')
 
 module.exports = {
+    /**
+     * 
+     * Create Product by passing name price and list of categories
+     */
     createProduct : async (request, response)=>{
         const session = await Product.startSession()
         session.startTransaction()
@@ -34,6 +38,10 @@ module.exports = {
             throw new Error(error)
         }
     },
+    /**
+     * 
+     * We can pass category id as query param to get product by Category e.g category=5f2ae74e5c573128048f2fb1
+     */
     getProducts : async (request, response)=>{
         try {
             const { category } = request.query 
@@ -51,6 +59,10 @@ module.exports = {
             throw new Error(error)
         }
     },
+     /**
+     * 
+     * get product By passing product id
+     */
     getProductById : async(request, response)=>{
         try {
             const { id } = request.params
@@ -63,6 +75,10 @@ module.exports = {
             throw new Error(error)
         }
     },
+     /**
+     * 
+     * Update Product by passing product Id
+     */
     updateProductById :async (request, response)=>{
         try {
             const { id } = request.params
@@ -76,6 +92,10 @@ module.exports = {
             throw new Error(error)
         }
     },
+    /**
+     * 
+     * Delete Product by passing product Id
+     */
     deleteProductById :async (request, response)=>{
         try {
             const { id } = request.params

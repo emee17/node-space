@@ -2,6 +2,11 @@ const Category = require('../model/category-model')
 const mongoose = require('mongoose')
 
 module.exports = {
+    /**
+     * 
+     * We can create catogry with its multiple nested catogries which can have further nested catogries
+     * createCategory method is written in manner that if it found array of catogries then it will save All child catogries
+     */
     createCategory: async (request, response) => {
         const session = await Category.startSession()
         session.startTransaction()
@@ -35,6 +40,10 @@ module.exports = {
             throw new Error(error)
         }
     },
+     /**
+     * 
+     * Get All Categories 
+     */
     getCategories: async (request, response) => {
         try {
             const categories = await Category.find().populate('childCategories')
@@ -46,6 +55,10 @@ module.exports = {
             throw new Error(error)
         }
     },
+     /**
+     * 
+     * Get  Categoriy by Passing Id 
+     */
     getCategoryById: async (request, response) => {
         try {
             const { id } = request.params
@@ -60,6 +73,10 @@ module.exports = {
     }
 }
 
+ /**
+     * 
+     * This method is used to find if there are child categories present in payload and it will save it 
+     */
 var saveCategory = async function (categories, mongoose, session) {
     
         var catogries1 = []
